@@ -4,6 +4,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestUserGreating {
 
@@ -24,54 +26,66 @@ public class TestUserGreating {
         //Arrange
         UserGreating g;
         g = new UserGreating();
-        //Act
-        String Actual = g.formatGreeting("KenzaClaudeCharlotte") ;
-        String Expected = "Nom invalid ! " ;
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            g.formatGreeting("KenzaClaudeCharlotte");
+        });
 
+        //Act
+        String actualMessage = exception.getMessage();
+        String Expected = "Nom invalid ! " ;
         //Assert
-        assertThat(Actual).isEqualTo(Expected) ;
+        assertTrue(actualMessage.contains(Expected));
     }
 
 
     @Test
     public void when_noun_contains_special_characters(){
+
         //Arrange
         UserGreating g;
         g = new UserGreating();
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            g.formatGreeting("K'enza") ;
+        });
 
         //Act
-        String Actual = g.formatGreeting("K'enza") ;
+        String actualMessage = exception.getMessage();
         String Expected = "Nom invalid ! " ;
-
         //Assert
-        assertThat(Actual).isEqualTo(Expected) ;
+        assertTrue(actualMessage.contains(Expected));
 
     }
 
     @Test
     public void when_noun_contains_space(){
+
         //Arrange
         UserGreating g;
         g = new UserGreating();
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            g.formatGreeting("K enza") ;
+        });
+
         //Act
-        String Actual = g.formatGreeting("K enza") ;
+        String actualMessage = exception.getMessage();
         String Expected = "Nom invalid ! " ;
-
         //Assert
-        assertThat(Actual).isEqualTo(Expected) ;
-
+        assertTrue(actualMessage.contains(Expected));
     }
     @Test
     public void when_noun_is_Empty(){
         //Arrange
         UserGreating g;
         g = new UserGreating();
-        //Act
-        String Actual = g.formatGreeting("") ;
-        String Expected = "Nom invalid ! " ;
+        Exception exception = assertThrows(RuntimeException.class, () -> {
+            g.formatGreeting("") ;
+        });
 
+        //Act
+        String actualMessage = exception.getMessage();
+        String Expected = "Nom invalid ! " ;
         //Assert
-        assertThat(Actual).isEqualTo(Expected) ;
+        assertTrue(actualMessage.contains(Expected));
 
     }
 }
